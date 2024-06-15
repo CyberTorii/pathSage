@@ -1,4 +1,4 @@
-# V4.17.08.23
+# V5.15.06.24
 
 import os
 from pathlib import Path
@@ -116,7 +116,7 @@ class pathSage():
         return Path(path).stem
 
     def name(self, path):
-        """This function allows to get file name from file path (without extension).
+        """This function allows to get file name from file path (with extension).
 
         Args:
             path (string | Path): the file path containing the file name to extract.
