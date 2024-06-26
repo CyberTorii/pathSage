@@ -5,7 +5,7 @@ from pathlib import Path
 
 class pathSage():
     def as_path(self, path):
-        """This function allows to normalize the path put as parameter and return it as a string to be readable by all functions that need a path. It checks if the parameter is a string or a Path. It also checks if the path exists else if generate a ValueError: PEBCAK.
+        """This function allows to normalize the path put as parameter and return it as a string to be readable by all functions that need a path. It checks if the parameter is a string or a Path. It also checks if the path exists else it generate a ValueError: PEBCAK.
 
         Args:
             path (string | Path): the path that needs to be normalized.
@@ -18,7 +18,7 @@ class pathSage():
         return Path(path).as_posix() + '/'
     
     def as_file(self, path):
-        """This function allows to normalize the file path put as parameter and return it as a string to be readable by all functions that need a path. It checks if the parameter is a string or a Path. It also checks if the file exists else if generate a ValueError: PEBCAK.
+        """This function allows to normalize the file path put as parameter and return it as a string to be readable by all functions that need a path. It checks if the parameter is a string or a Path. It also checks if the file exists else it generate a ValueError: PEBCAK.
 
         Args:
             file path (string | Path): the file path that needs to be normalized.
@@ -73,7 +73,7 @@ class pathSage():
         )
     
     def as_cmd(self, path):
-        """This function converts the path set as parameter to be understood by Windows cmd or shell. It checks if the parameter is a string or a Path. It also checks if the path exists else if generate a ValueError: PEBCAK.
+        """This function converts the path set as parameter to be understood by Windows cmd or shell. It checks if the parameter is a string or a Path. It also checks if the path exists else it generate a ValueError: PEBCAK.
 
         Args:
             path (string | Path): the path that needs to be converted.
@@ -82,7 +82,20 @@ class pathSage():
             string: the input path converted (containing backslashes instead of slashes).
         """
 
-        return os.path.realpath(self.as_path(path)) + "\\"
+        return os.path.realpath(self.as_path(path))
+    
+    def for_win(self, path: str):
+        """This function converts the path or file path as Windows path (with backslashes). It checks if the parameter is a string else it generate a ValueError: PEBCAK.
+
+        Args:
+            path (string | Path): the path or file path that needs to be converted.
+
+        Returns:
+            string: the input path converted (containing backslashes instead of slashes).
+        """
+
+        if not isinstance(path, str): return self.error_f()
+        return path.replace('/', '\\')
     
     def join(self, root, elements: list):
         """This function allows to use joinpath from pathlib with Path but also with string parameters.
@@ -321,7 +334,7 @@ class pathSage():
         return self.as_file(folder_path)
         
     def delete(self, file_path):
-        """This function allows to delete a file. It also checks if the parameter is a string or a Path and if the file exists else if generate a ValueError: PEBCAK.
+        """This function allows to delete a file. It also checks if the parameter is a string or a Path and if the file exists else it generate a ValueError: PEBCAK.
 
         Args:
             file_path (string | Path): the file path to delete.
