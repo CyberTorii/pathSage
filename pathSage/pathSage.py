@@ -79,10 +79,10 @@ class pathSage():
             path (string | Path): the path that needs to be converted.
 
         Returns:
-            string: the input path converted.
+            string: the input path converted (containing backslashes instead of slashes).
         """
 
-        return os.path.realpath(self.as_path(path))
+        return os.path.realpath(self.as_path(path)) + "\\"
     
     def join(self, root, elements: list):
         """This function allows to use joinpath from pathlib with Path but also with string parameters.
