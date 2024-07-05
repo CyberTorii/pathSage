@@ -96,7 +96,7 @@ class pathSage():
         if not isinstance(path, str): return self.error_f()
         return path.replace('/', '\\')
     
-    def join(self, root: str | Path, elements: list) -> Path:
+    def join(self, root: str | Path, elements: list[str]) -> Path:
         """This function allows to use joinpath from pathlib with Path but also with string parameters.
 
         Args:
