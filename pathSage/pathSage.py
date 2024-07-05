@@ -1,69 +1,68 @@
-# V5.15.06.24
-
 import os
+import shutil
 from pathlib import Path
 
 class pathSage():
-    def as_path(self, path):
+    def as_path(self, path: str | Path) -> str:
         """This function allows to normalize the path put as parameter and return it as a string to be readable by all functions that need a path. It checks if the parameter is a string or a Path. It also checks if the path exists else it generate a ValueError: PEBCAK.
 
         Args:
-            path (string | Path): the path that needs to be normalized.
+            path (str | Path): the path that needs to be normalized.
 
         Returns:
-            string: the input path normalized.
+            str: the input path normalized.
         """
         
         if not self.exists(path): return self.error_e()
         return Path(path).as_posix() + '/'
     
-    def as_file(self, path):
+    def as_file(self, path: str | Path) -> str:
         """This function allows to normalize the file path put as parameter and return it as a string to be readable by all functions that need a path. It checks if the parameter is a string or a Path. It also checks if the file exists else it generate a ValueError: PEBCAK.
 
         Args:
-            file path (string | Path): the file path that needs to be normalized.
+            file path (str | Path): the file path that needs to be normalized.
 
         Returns:
-            string: the input file path normalized.
+            str: the input file path normalized.
         """
 
         if not self.exists(path): return self.error_e()
         return Path(path).as_posix()
     
-    def as_new_path(self, path):
+    def as_new_path(self, path: str | Path) -> str:
         """This function allows to normalize the path put as parameter and return it as a string to be readable by all functions that need a path. It checks if the parameter is a string or a Path. As it's a new path, it doesn't yet exist, so the function doesn't check the path's existence.
 
         Args:
-            path (string | Path): the path that needs to be normalized.
+            path (str | Path): the path that needs to be normalized.
 
         Returns:
-            string: the input path normalized.
+            str: the input path normalized.
         """
 
         if not self.valid(path): return self.error_f()
         return Path(path).as_posix() + '/'
     
-    def as_new_file(self, path):
+    def as_new_file(self, path: str | Path) -> str:
         """This function allows to normalize the file path put as parameter and return it as a string to be readable by all functions that need a path. It checks if the parameter is a string or a Path. As it's a new file path, it doesn't yet exist, so the function doesn't check the file path's existence.
 
         Args:
-            file path (string | Path): the file path that needs to be normalized.
+            file path (str | Path): the file path that needs to be normalized.
 
         Returns:
-            string: the input file path normalized.
+            str: the input file path normalized.
         """
 
         if not self.valid(path): return self.error_f()
         return Path(path).as_posix()
     
-    def as_extension(self, extension: str):
+    def as_extension(self, extension: str) -> str:
         """This function normalizes the extension set as a parameter, adding a dot at the beginning if it hasn't already been done.
 
         Args:
             extension (str): the file extension.
 
         Returns:
-            string: the file extension normalized.
+            str: the file extension normalized.
         """
 
         return (
@@ -72,36 +71,36 @@ class pathSage():
             else extension
         )
     
-    def as_cmd(self, path):
+    def as_cmd(self, path: str | Path) -> str:
         """This function converts the path set as parameter to be understood by Windows cmd or shell. It checks if the parameter is a string or a Path. It also checks if the path exists else it generate a ValueError: PEBCAK.
 
         Args:
-            path (string | Path): the path that needs to be converted.
+            path (str | Path): the path that needs to be converted.
 
         Returns:
-            string: the input path converted (containing backslashes instead of slashes).
+            str: the input path converted (containing backslashes instead of slashes).
         """
 
         return os.path.realpath(self.as_path(path))
     
-    def for_win(self, path: str):
+    def for_win(self, path: str) -> str:
         """This function converts the path or file path as Windows path (with backslashes). It checks if the parameter is a string else it generate a ValueError: PEBCAK.
 
         Args:
-            path (string | Path): the path or file path that needs to be converted.
+            path (str | Path): the path or file path that needs to be converted.
 
         Returns:
-            string: the input path converted (containing backslashes instead of slashes).
+            str: the input path converted (containing backslashes instead of slashes).
         """
 
         if not isinstance(path, str): return self.error_f()
         return path.replace('/', '\\')
     
-    def join(self, root, elements: list):
+    def join(self, root: str | Path, elements: list) -> Path:
         """This function allows to use joinpath from pathlib with Path but also with string parameters.
 
         Args:
-            root (string | Path): the path to a specific directory.
+            root (str | Path): the path to a specific directory.
             elements (list): the list of sub directories and/or file of the root path.
 
         Returns:
@@ -115,54 +114,54 @@ class pathSage():
             path = path.joinpath(element)
         return path
     
-    def stem(self, path):
+    def stem(self, path: str | Path) -> str:
         """This function allows to get file name from file path (without extension).
 
         Args:
-            path (string | Path): the file path containing the file name to extract.
+            path (str | Path): the file path containing the file name to extract.
 
         Returns:
-            string: the file name without extension.
+            str: the file name without extension.
         """
 
         if not self.valid(path): return self.error_f()
         return Path(path).stem
 
-    def name(self, path):
+    def name(self, path: str | Path) -> str:
         """This function allows to get file name from file path (with extension).
 
         Args:
-            path (string | Path): the file path containing the file name to extract.
+            path (str | Path): the file path containing the file name to extract.
 
         Returns:
-            string: the file name with extension.
+            str: the file name with extension.
         """
 
         if not self.valid(path): return self.error_f()
         return Path(path).name
     
-    def suffix(self, path):
+    def suffix(self, path: str | Path) -> str:
         """This function allows to get file extension from file path.
 
         Args:
-            path (string | Path): the file path containing the extension to extract.
+            path (str | Path): the file path containing the extension to extract.
 
         Returns:
-            string: the file extension.
+            str: the file extension.
         """
 
         if not self.valid(path): return self.error_f()
         return Path(path).suffix
     
-    def parent_path(self, path, parent_nb: int):
+    def parent_path(self, path: str | Path, parent_nb: int) -> str:
         """This function allows to get the n-th parent path from the path defined as parameter.
 
         Args:
-            path (string | Path): the child path as start point.
+            path (str | Path): the child path as start point.
             parent_nb (int): the n-th parent needed.
 
         Returns:
-            string: the n-th parent path normalized.
+            str: the n-th parent path normalized.
         """
         
         parent_path = Path(path)
@@ -170,14 +169,14 @@ class pathSage():
             parent_path = parent_path.parent
         return self.as_path(parent_path)
     
-    def exists(self, path):
-        """This function checks whether the path or file defined as a parameter have a correct type (Path or string) and exists.
+    def exists(self, path: str | Path) -> bool:
+        """This function checks whether the path or file defined as a parameter have a correct type (Path or str) and exists.
 
         Args:
-            path (string | Path): the path or file to check.
+            path (str | Path): the path or file to check.
 
         Returns:
-            boolean: true if path or file exists else false.
+            bool: true if path or file exists else false.
         """
 
         if self.valid(path):
@@ -185,27 +184,27 @@ class pathSage():
         else:
             return False
         
-    def valid(self, path):
-        """This function checks whether the path or file defined as a parameter have a correct type (Path or string).
+    def valid(self, path: str | Path) -> bool:
+        """This function checks whether the path or file defined as a parameter have a correct type (Path or str).
 
         Args:
-            path (string | Path): the path or file to check.
+            path (str | Path): the path or file to check.
 
         Returns:
-            boolean: true if path or file type is correct else false.
+            bool: true if path or file type is correct else false.
         """
 
         return isinstance(path, Path) or isinstance(path, str)
     
-    def has_extension(self, path, extension):
+    def has_extension(self, path: str | Path, extension: str) -> bool:
         """This function compares a file path with an extension defined as parameters (case insensitive).
 
         Args:
-            path (string | Path): the file path to check.
-            extension (string): the reference extension.
+            path (str | Path): the file path to check.
+            extension (str): the reference extension.
 
         Returns:
-            boolean: true if the file has the same extension as the reference extension else false.
+            bool: true if the file has the same extension as the reference extension else false.
         """
         
         if not self.exists(path): return self.error_e()
@@ -215,54 +214,54 @@ class pathSage():
 
         return (Path(path).suffix.lower() in [e.lower() for e in extension]) and Path(path).is_file()
     
-    def file_start(self, path, pattern):
+    def file_start(self, path: str | Path, pattern: str) -> bool:
         """This function checks if the file name, containing in a path, starts with a defined pattern.
 
         Args:
-            path (string | Path): the path containing the file name.
-            pattern (string): the pattern to compare with the file name.
+            path (str | Path): the path containing the file name.
+            pattern (str): the pattern to compare with the file name.
 
         Returns:
-            boolean: true if the file name starts with the pattern else false.
+            bool: true if the file name starts with the pattern else false.
         """
 
         return self.stem(path).startswith(pattern)
     
-    def file_end(self, path, pattern):
+    def file_end(self, path: str | Path, pattern: str) -> bool:
         """This function checks if the file name, containing in a path, ends with a defined pattern.
 
         Args:
-            path (string | Path): the path containing the file name.
-            pattern (string): the pattern to compare with the file name.
+            path (str | Path): the path containing the file name.
+            pattern (str): the pattern to compare with the file name.
 
         Returns:
-            boolean: true if the file name ends with the pattern else false.
+            bool: true if the file name ends with the pattern else false.
         """
 
         return self.self.stem(path).endswith(pattern)
     
-    def similar_file(self, path, start='', end=''):
+    def similar_file(self, path: str | Path, start: str='', end: str='') -> str:
         """This function allows to get an existing file path similar to the file path defined as parameter by editing the start and the end of the file name.
 
         Args:
-            path (string | Path): the file path.
+            path (str | Path): the file path.
             start (str, optional): the pattern at the beginning of the peer file name. Defaults to ''.
             end (str, optional): the pattern at the end of the peer file name. Defaults to ''.
 
         Returns:
-            string: the peer file path normalized of the input file path.
+            str: the peer file path normalized of the input file path.
         """
 
         file = start + self.name(path) + end
         return self.as_file(self.join(Path(path).parent, [file]))
 
-    def get_files_path(self, path, pattern=None, extension=None):
+    def get_files_path(self, path: str | Path, pattern: str=None, extension: str=None) -> list[str]:
         """This function allows to get all file paths from the path defined as parameter. It can also filter results by using pattern or extension extraction.
 
         Args:
-            path (string | Path): the path that contains files to extract.
-            pattern (string, optional): the pattern contained in file names to extract. Defaults to None.
-            extension (string, optional): the extension of files to extract. Defaults to None.
+            path (str | Path): the path that contains files to extract.
+            pattern (str, optional): the pattern contained in file names to extract. Defaults to None.
+            extension (str, optional): the extension of files to extract. Defaults to None.
 
         Returns:
             list: the list of file paths normalized.
@@ -277,13 +276,13 @@ class pathSage():
         else:
             return [self.as_file(file) for file in Path(path).iterdir()]
     
-    def get_files_stem(self, path, pattern=None, extension=None):
+    def get_files_stem(self, path: str | Path, pattern: str=None, extension: str=None) -> list[str]:
         """This function allows to get all file names (without extension) from the path defined as parameter. It can also filter results by using pattern or extension extraction.
 
         Args:
-            path (string | Path): the path that contains files to extract.
-            pattern (string, optional): the pattern contained in file names to extract. Defaults to None.
-            extension (string, optional): the extension of files to extract. Defaults to None.
+            path (str | Path): the path that contains files to extract.
+            pattern (str, optional): the pattern contained in file names to extract. Defaults to None.
+            extension (str, optional): the extension of files to extract. Defaults to None.
 
         Returns:
             list: the list of file names (without extension).
@@ -298,13 +297,13 @@ class pathSage():
         else:
             return [file.stem for file in Path(path).iterdir()]
         
-    def get_files_name(self, path, pattern=None, extension=None):
+    def get_files_name(self, path: str | Path, pattern: str=None, extension: str=None) -> list[str]:
         """This function allows to get all file names (with extension) from the path defined as parameter. It can also filter results by using pattern or extension extraction.
 
         Args:
-            path (string | Path): the path that contains files to extract.
-            pattern (string, optional): the pattern contained in file names to extract. Defaults to None.
-            extension (string, optional): the extension of files to extract. Defaults to None.
+            path (str | Path): the path that contains files to extract.
+            pattern (str, optional): the pattern contained in file names to extract. Defaults to None.
+            extension (str, optional): the extension of files to extract. Defaults to None.
 
         Returns:
             list: the list of file names (with extension).
@@ -319,36 +318,53 @@ class pathSage():
         else:
             return [file.name for file in Path(path).iterdir()]
         
-    def mkdir(self, folder_path):
+    def mkdir(self, folder_path: str | Path) -> str:
         """This function just creation a simple folder and check before if the folder doesn't already exist.
 
         Args:
-            folder_path (string | Path): the folder path to create.
+            folder_path (str | Path): the folder path to create.
 
         Returns:
-            string: the folder path created.
+            str: the folder path created.
         """
         
         if not self.exists(folder_path):
             os.mkdir(folder_path)
         return self.as_file(folder_path)
+    
+    def move(self, current_path: str | Path, destination_path: str | Path, is_path: bool=True):
+        """This function allows to move a file or a folder in a new location.
+
+        Args:
+            current_path (str | Path): the file or folder path to move.
+            destination_path (str | Path): the destination path.
+            is_path (bool, optional): True if current_path a folder path else False. Defaults to True.
+        """
+
+        destination_path = self.mkdir(destination_path)
+
+        if is_path:
+            current_path = self.as_path(current_path)
+        else:
+            current_path = self.as_file(current_path)
+
+        return shutil.move(current_path, destination_path)
         
-    def delete(self, file_path):
+    def delete(self, file_path: str | Path) -> None:
         """This function allows to delete a file. It also checks if the parameter is a string or a Path and if the file exists else it generate a ValueError: PEBCAK.
 
         Args:
-            file_path (string | Path): the file path to delete.
+            file_path (str | Path): the file path to delete.
         """
 
         os.remove(self.as_file(file_path))
 
-    def rename(self, current_path, new_path):
+    def rename(self, current_path: str | Path, new_path: str | Path) -> None:
         """This function allows to rename a directory or file name.
 
         Args:
-            current_path (string | Path): the file or directory path that need to be renamed.
-            new_path (string | Path): the new file or directory path.
-
+            current_path (str | Path): the file or directory path that need to be renamed.
+            new_path (str | Path): the new file or directory path.
         """
 
         if not self.exists(current_path): return self.error_e()
