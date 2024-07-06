@@ -1,4 +1,5 @@
 import os
+import sys
 import shutil
 from pathlib import Path
 
@@ -168,6 +169,21 @@ class pathSage():
         for _ in range(parent_nb):
             parent_path = parent_path.parent
         return self.as_path(parent_path)
+    
+    def current_path(self, file: str | Path) -> str:
+        """This function allows to get the current file location even if it a python script or an executable file.
+
+        Args:
+            file (str | Path): the file to get its location.
+
+        Returns:
+            str: the current location of the file passed as parameter.
+        """
+        
+        if (self.suffix(file) == '.exe'):
+            return self.as_path(os.path.dirname(sys.executable))
+        else:
+            return self.as_path(self.parent_path(file, 1))
     
     def exists(self, path: str | Path) -> bool:
         """This function checks whether the path or file defined as a parameter have a correct type (Path or str) and exists.
