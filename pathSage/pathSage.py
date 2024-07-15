@@ -366,14 +366,22 @@ class pathSage():
 
         shutil.move(current_path, destination_path)
 
-    def copy(self, file_path : str | Path, new_file_path: str | Path, new_file_name: None | str=None) -> None:
-        file_path = self.as_file(file_path)
-        new_file_path = self.as_new_file(new_file_path)
+    def copy(self, file_path : str | Path, destination_path: str | Path, new_file_name: None | str=None) -> None:
+        """This function allow to copy a file and past it in new location. There is also the possibility to rename it in its new location.
 
-        shutil.copy2(file_path, new_file_path)
+        Args:
+            file_path (str | Path): the file path to copy.
+            destination_path (str | Path): the destination path where to past the file.
+            new_file_name (None | str, optional): the new file name of pasted file. Defaults to None.
+        """
+        
+        file_path = self.as_file(file_path)
+        destination_path = self.as_path(destination_path)
+
+        new_file_path = shutil.copy2(file_path, destination_path)
 
         if new_file_name is not None:
-            self.rename(new_file_path, self.as_new_file(self.join(self.parent_path(new_file_path, 1), [new_file_name])))
+            self.rename(new_file_path, self.as_new_file(self.join(destination_path, [new_file_name])))
         
     def delete(self, file_path: str | Path) -> None:
         """This function allows to delete a file. It also checks if the parameter is a string or a Path and if the file exists else it generate a ValueError: PEBCAK.
