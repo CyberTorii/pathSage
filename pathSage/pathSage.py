@@ -378,7 +378,7 @@ class pathSage():
         file_path = self.as_file(file_path)
         destination_path = self.as_path(destination_path)
 
-        if not self.exists(self.join(destination_path, [self.name(file_path)])):
+        if not self.exists(self.join(destination_path, [new_file_name or self.name(file_path)])):
             new_file_path = shutil.copy2(file_path, destination_path)
 
             if new_file_name is not None:
