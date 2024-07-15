@@ -348,7 +348,7 @@ class pathSage():
             os.mkdir(folder_path)
         return self.as_file(folder_path)
     
-    def move(self, current_path: str | Path, destination_path: str | Path, is_path: bool=True):
+    def move(self, current_path: str | Path, destination_path: str | Path, is_path: bool=True) -> None:
         """This function allows to move a file or a folder in a new location.
 
         Args:
@@ -364,7 +364,16 @@ class pathSage():
         else:
             current_path = self.as_file(current_path)
 
-        return shutil.move(current_path, destination_path)
+        shutil.move(current_path, destination_path)
+
+    def copy(self, file_path : str | Path, new_file_path: str | Path, new_file_name: None | str=None) -> None:
+        file_path = self.as_file(file_path)
+        new_file_path = self.as_new_file(new_file_path)
+
+        shutil.copy2(file_path, new_file_path)
+
+        if new_file_name is not None:
+            self.rename(new_file_path, self.as_new_file(self.join(self.parent_path(new_file_path, 1), [new_file_name])))
         
     def delete(self, file_path: str | Path) -> None:
         """This function allows to delete a file. It also checks if the parameter is a string or a Path and if the file exists else it generate a ValueError: PEBCAK.
